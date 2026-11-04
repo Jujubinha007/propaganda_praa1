@@ -20,7 +20,7 @@
         <img src="img/logo-sesi-senai.png" alt="SESI | SENAI" class="logo">
         <div>
           <h1>Projeto de Áudio e Vídeo - Propagandas</h1>
-          <p>Produzido pelos alunos do 2°EM SESI | SENAI 2026</p>
+          <p>Produzido pelos alunos do 2°B EM SESI | SENAI 2026</p>
         </div>
       </div>
       <div class="usuario">
@@ -85,26 +85,36 @@
 
         <!-- Lado direito: avaliação -->
         <div class="lado-avaliacao">
-          <p class="contador" id="contador"></p>
-          <h3 id="tituloVideo"></h3>
-          <p class="produto" id="produtoVideo"></p>
-          <p class="status-video" id="statusVideo"></p>
 
-          <form id="formNota">
-            <fieldset class="opcoes" id="opcoes">
-              <legend>Sua nota</legend>
-              <label class="opcao"><input type="radio" name="nota" value="5"> <span class="nota-numero">5</span> Excelente</label>
-              <label class="opcao"><input type="radio" name="nota" value="4"> <span class="nota-numero">4</span> Muito Bom</label>
-              <label class="opcao"><input type="radio" name="nota" value="3"> <span class="nota-numero">3</span> Regular</label>
-              <label class="opcao"><input type="radio" name="nota" value="2"> <span class="nota-numero">2</span> Ruim</label>
-              <label class="opcao"><input type="radio" name="nota" value="1"> <span class="nota-numero">1</span> Muito Ruim</label>
-              <label class="opcao"><input type="radio" name="nota" value="0"> <span class="nota-numero">0</span> Nulo</label>
-            </fieldset>
+          <!-- Aparece no lugar de tudo depois que a pessoa vota neste vídeo -->
+          <div id="jaVotado" class="ja-votado" role="status" hidden>
+            <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+            <p>Vídeo já votado</p>
+          </div>
 
-            <!-- role="status": o leitor de tela lê as mensagens que aparecem aqui -->
-            <p id="aviso" class="aviso" role="status"></p>
-            <button type="submit" id="botaoEnviar" class="botao-principal">Enviar</button>
-          </form>
+          <!-- Aparece enquanto a pessoa ainda não votou neste vídeo -->
+          <div id="areaVoto" class="area-voto">
+            <p class="contador" id="contador"></p>
+            <h3 id="tituloVideo"></h3>
+            <p class="produto" id="produtoVideo"></p>
+            <p class="status-video pendente">Você ainda não avaliou este vídeo.</p>
+
+            <form id="formNota">
+              <fieldset class="opcoes" id="opcoes">
+                <legend>Sua nota</legend>
+                <label class="opcao"><input type="radio" name="nota" value="5"> <span class="nota-numero">5</span> Excelente</label>
+                <label class="opcao"><input type="radio" name="nota" value="4"> <span class="nota-numero">4</span> Muito Bom</label>
+                <label class="opcao"><input type="radio" name="nota" value="3"> <span class="nota-numero">3</span> Regular</label>
+                <label class="opcao"><input type="radio" name="nota" value="2"> <span class="nota-numero">2</span> Ruim</label>
+                <label class="opcao"><input type="radio" name="nota" value="1"> <span class="nota-numero">1</span> Muito Ruim</label>
+                <label class="opcao"><input type="radio" name="nota" value="0"> <span class="nota-numero">0</span> Nulo</label>
+              </fieldset>
+
+              <!-- role="status": o leitor de tela lê as mensagens que aparecem aqui -->
+              <p id="aviso" class="aviso" role="status"></p>
+              <button type="submit" id="botaoEnviar" class="botao-principal">Enviar</button>
+            </form>
+          </div>
         </div>
       </article>
 
@@ -119,7 +129,7 @@
 
   <footer class="rodape">
     <div class="container">
-      <p>Projeto de Áudio e Vídeo - 2°EM SESI | SENAI 2026</p>
+      <p>Projeto de Áudio e Vídeo - 2°B EM SESI | SENAI 2026</p>
     </div>
   </footer>
 

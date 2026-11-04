@@ -19,7 +19,7 @@
         <img src="img/logo-sesi-senai.png" alt="SESI | SENAI" class="logo">
         <div>
           <h1>Painel do Professor</h1>
-          <p>Concurso de Propagandas - 2°EM SESI | SENAI 2026</p>
+          <p>Concurso de Propagandas - 2°B EM SESI | SENAI 2026</p>
         </div>
       </div>
       <div class="usuario">
@@ -42,7 +42,12 @@
         </div>
         <div class="campo">
           <label for="senhaAdmin">Senha</label>
-          <input type="password" id="senhaAdmin" required autocomplete="current-password">
+          <div class="campo-senha">
+            <input type="password" id="senhaAdmin" required autocomplete="current-password">
+            <button type="button" class="botao-olho" aria-controls="senhaAdmin" aria-label="Mostrar senha">
+              <i class="bi bi-eye" aria-hidden="true"></i>
+            </button>
+          </div>
         </div>
         <button type="submit" id="botaoEntrarAdmin" class="botao-principal">Entrar</button>
       </form>
@@ -112,5 +117,6 @@
   <script src="js/videos.js"></script>
   <script src="js/banco.js"></script>
   <script src="js/admin.js"></script>
+  <script src="js/senha.js"></script>
 </body>
 </html>

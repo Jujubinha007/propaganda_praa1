@@ -8,7 +8,38 @@ if (!sessao) {
   location.replace("index.html");
 }
 
+// =============================================================
+// ORDEM DOS VÍDEOS (embaralhada para cada pessoa)
+// A ordem é sorteada uma vez e fica salva no navegador,
+// para não mudar toda vez que a página recarregar.
+// =============================================================
+
+// Embaralha uma lista (algoritmo de Fisher-Yates)
+function embaralhar(lista) {
+  const copia = [...lista];
+  for (let i = copia.length - 1; i > 0; i--) {
+    const sorteado = Math.floor(Math.random() * (i + 1));
+    [copia[i], copia[sorteado]] = [copia[sorteado], copia[i]];
+  }
+  return copia;
+}
+
+function ordemDoUsuario() {
+  const chave = "concurso2026_ordem_" + sessao.email;
+  let ids = JSON.parse(localStorage.getItem(chave) || "null");
+
+  // Sorteia uma ordem nova se ainda não existe ou se a lista de vídeos mudou
+  const listaMudou = !ids || ids.length !== VIDEOS.length || !VIDEOS.every((video) => ids.includes(video.id));
+  if (listaMudou) {
+    ids = embaralhar(VIDEOS.map((video) => video.id));
+    localStorage.setItem(chave, JSON.stringify(ids));
+  }
+
+  return ids.map((id) => VIDEOS.find((video) => video.id === id));
+}
+
 // ----- Estado da página -----
+const listaVideos = sessao ? ordemDoUsuario() : []; // vídeos na ordem desta pessoa
 let notas = {};          // notas que ESTA pessoa já deu. Ex.: { 1: 5, 3: 2 }
 let totalVotos = 0;      // total de votos de todo mundo
 let atual = 0;           // posição do vídeo que está na tela (0 = primeiro)
@@ -23,6 +54,8 @@ const formNota = document.getElementById("formNota");
 const opcoes = document.getElementById("opcoes");
 const botaoEnviar = document.getElementById("botaoEnviar");
 const aviso = document.getElementById("aviso");
+const areaVoto = document.getElementById("areaVoto");
+const jaVotado = document.getElementById("jaVotado");
 
 // =============================================================
 // VÍDEOS JÁ ABERTOS
@@ -43,9 +76,8 @@ function marcarComoAberto(id) {
   }
 }
 
-function podeAvaliar(id) {
-  // Pode avaliar se abriu o vídeo OU se já tinha votado nele antes
-  return videosAbertos().includes(id) || notas[id] !== undefined;
+function jaVotou(id) {
+  return notas[id] !== undefined;
 }
 
 // =============================================================
@@ -53,7 +85,7 @@ function podeAvaliar(id) {
 // =============================================================
 async function iniciar() {
   document.getElementById("nomeUsuario").textContent = sessao.nome;
-  document.getElementById("totalVideos").textContent = VIDEOS.length;
+  document.getElementById("totalVideos").textContent = listaVideos.length;
   criarPontos();
   mostrarVideo();
   await carregarDados();
@@ -81,11 +113,11 @@ async function carregarDados() {
 
 // Atualiza os 3 cards (total de votos, vídeos e status)
 function atualizarCards() {
-  const avaliados = VIDEOS.filter((video) => notas[video.id] !== undefined).length;
-  const faltam = VIDEOS.length - avaliados;
+  const avaliados = listaVideos.filter((video) => jaVotou(video.id)).length;
+  const faltam = listaVideos.length - avaliados;
 
   document.getElementById("totalVotos").textContent = totalVotos;
-  document.getElementById("statusUsuario").textContent = `${avaliados} de ${VIDEOS.length}`;
+  document.getElementById("statusUsuario").textContent = `${avaliados} de ${listaVideos.length}`;
 
   let texto;
   if (faltam === 0) {
@@ -102,7 +134,7 @@ function atualizarCards() {
 
 // Coloca o vídeo da posição "atual" no card
 function mostrarVideo() {
-  const video = VIDEOS[atual];
+  const video = listaVideos[atual];
 
   // Reinicia o player e mostra o botão "Assistir vídeo"
   player.pause();
@@ -113,46 +145,40 @@ function mostrarVideo() {
   sobreposicao.classList.remove("escondido");
 
   // Textos
-  document.getElementById("contador").textContent = `Vídeo ${atual + 1} de ${VIDEOS.length}`;
+  document.getElementById("contador").textContent = `Vídeo ${atual + 1} de ${listaVideos.length}`;
   document.getElementById("tituloVideo").textContent = video.titulo;
   document.getElementById("produtoVideo").textContent = video.produto;
 
-  // Marca a nota que a pessoa já deu (se já votou)
+  // Desmarca as notas
   document.querySelectorAll('input[name="nota"]').forEach((radio) => {
-    radio.checked = Number(radio.value) === notas[video.id];
+    radio.checked = false;
   });
 
   // Setas: desliga no primeiro e no último vídeo
   botaoAnterior.disabled = atual === 0;
-  botaoProximo.disabled = atual === VIDEOS.length - 1;
+  botaoProximo.disabled = atual === listaVideos.length - 1;
 
   mostrarAviso("");
-  atualizarStatusVideo();
-  atualizarFormulario();
+  atualizarLadoDireito();
   atualizarPontos();
 }
 
-// Mostra se a pessoa já votou neste vídeo e qual nota deu
-function atualizarStatusVideo() {
-  const status = document.getElementById("statusVideo");
-  const nota = notas[VIDEOS[atual].id];
+// Já votou? Mostra só "Vídeo já votado". Senão, mostra as notas.
+function atualizarLadoDireito() {
+  const id = listaVideos[atual].id;
+  const votado = jaVotou(id);
 
-  if (nota === undefined) {
-    status.textContent = "Você ainda não avaliou este vídeo.";
-    status.className = "status-video pendente";
-  } else {
-    status.textContent = `Sua avaliação: ${nota} – ${ESCALA[nota]}`;
-    status.className = "status-video avaliado";
-  }
-}
+  areaVoto.hidden = votado;
+  jaVotado.hidden = !votado;
 
-// Libera ou bloqueia as notas, dependendo se o vídeo já foi aberto
-function atualizarFormulario() {
-  const liberado = podeAvaliar(VIDEOS[atual].id);
-  opcoes.disabled = !liberado;
-  botaoEnviar.disabled = !liberado;
-  if (!liberado) {
-    mostrarAviso("Assista ao vídeo para liberar a avaliação.");
+  if (!votado) {
+    // As notas só ficam liberadas depois de abrir o vídeo
+    const liberado = videosAbertos().includes(id);
+    opcoes.disabled = !liberado;
+    botaoEnviar.disabled = !liberado;
+    if (!liberado) {
+      mostrarAviso("Assista ao vídeo para liberar a avaliação.");
+    }
   }
 }
 
@@ -164,7 +190,7 @@ function mostrarAviso(texto, tipo = "") {
 // Bolinhas embaixo do card (uma para cada vídeo)
 function criarPontos() {
   const pontos = document.getElementById("pontos");
-  VIDEOS.forEach((video, posicao) => {
+  listaVideos.forEach((video, posicao) => {
     const ponto = document.createElement("button");
     ponto.className = "ponto";
     ponto.setAttribute("aria-label", `Ir para o vídeo ${posicao + 1}`);
@@ -177,7 +203,7 @@ function atualizarPontos() {
   document.querySelectorAll(".ponto").forEach((ponto, posicao) => {
     ponto.classList.toggle("ativo", posicao === atual);
     ponto.setAttribute("aria-current", posicao === atual ? "true" : "false");
-    ponto.classList.toggle("avaliado", notas[VIDEOS[posicao].id] !== undefined);
+    ponto.classList.toggle("avaliado", jaVotou(listaVideos[posicao].id));
   });
 }
 
@@ -186,7 +212,7 @@ function atualizarPontos() {
 // =============================================================
 
 function irPara(posicao) {
-  if (posicao >= 0 && posicao < VIDEOS.length) {
+  if (posicao >= 0 && posicao < listaVideos.length) {
     atual = posicao;
     mostrarVideo();
   }
@@ -209,12 +235,12 @@ botaoAssistir.addEventListener("click", () => {
   sobreposicao.classList.add("escondido");
   player.setAttribute("controls", "");
   player.play().catch(() => {});
-  marcarComoAberto(VIDEOS[atual].id);
+  marcarComoAberto(listaVideos[atual].id);
   mostrarAviso("");
-  atualizarFormulario();
+  atualizarLadoDireito();
 });
 
-// Botão "Enviar"
+// Botão "Enviar" (cada vídeo só pode ser votado uma vez)
 formNota.addEventListener("submit", async (evento) => {
   evento.preventDefault();
 
@@ -224,7 +250,7 @@ formNota.addEventListener("submit", async (evento) => {
     return;
   }
 
-  const video = VIDEOS[atual];
+  const video = listaVideos[atual];
   const nota = Number(marcado.value);
 
   botaoEnviar.disabled = true;
@@ -235,10 +261,14 @@ formNota.addEventListener("submit", async (evento) => {
     notas[video.id] = nota;
     totalVotos = await chamarBanco("total_avaliacoes");
     atualizarCards();
-    atualizarStatusVideo();
-    mostrarAviso("Avaliação enviada! Você pode mudar a nota quando quiser.", "sucesso");
+    atualizarLadoDireito(); // troca o lado direito por "Vídeo já votado"
   } catch (erro) {
-    mostrarAviso(erro.message, "erro");
+    if (erro.message.includes("já votou")) {
+      // O banco diz que este vídeo já tinha voto: recarrega as notas
+      await carregarDados();
+    } else {
+      mostrarAviso(erro.message, "erro");
+    }
   }
 
   botaoEnviar.disabled = false;

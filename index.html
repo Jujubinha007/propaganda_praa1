@@ -33,7 +33,12 @@
 
       <div class="campo">
         <label for="senha">Senha</label>
-        <input type="password" id="senha" required autocomplete="current-password" aria-describedby="dicaSenha">
+        <div class="campo-senha">
+          <input type="password" id="senha" required autocomplete="current-password" aria-describedby="dicaSenha">
+          <button type="button" class="botao-olho" aria-controls="senha" aria-label="Mostrar senha">
+            <i class="bi bi-eye" aria-hidden="true"></i>
+          </button>
+        </div>
         <p class="dica-campo" id="dicaSenha">Senha informada pelo professor.</p>
       </div>
 
@@ -56,5 +61,6 @@
   <script src="js/config.js"></script>
   <script src="js/banco.js"></script>
   <script src="js/login.js"></script>
+  <script src="js/senha.js"></script>
 </body>
 </html>

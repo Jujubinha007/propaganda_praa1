@@ -227,6 +227,38 @@ button {
   border-color: var(--vermelho-texto);
   box-shadow: 0 0 0 3px var(--vermelho-claro);
 }
+
+/* Campo de senha com o botão de olho dentro */
+.campo-senha {
+  position: relative;
+}
+.campo-senha input {
+  padding-right: 48px; /* espaço para o olho não ficar em cima do texto */
+}
+/* Esconde o olho próprio do Edge para não aparecerem dois */
+.campo-senha input::-ms-reveal {
+  display: none;
+}
+.botao-olho {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--texto-suave);
+  font-size: 1.15rem;
+}
+.botao-olho:hover {
+  color: var(--vermelho-texto);
+}
+
 .dica-campo {
   margin-top: 2px;
   font-size: 0.75rem;
@@ -526,9 +558,23 @@ button {
   background: var(--cinza-claro);
   color: var(--texto-suave);
 }
-.status-video.avaliado {
-  background: var(--verde-claro);
+
+/* Mensagem "Vídeo já votado" (substitui o lado direito depois do voto) */
+.ja-votado {
+  flex: 1;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
   color: var(--verde);
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+.ja-votado .bi {
+  font-size: 3.5rem;
 }
 
 /* Notas em 2 colunas: 5, 4, 3 na esquerda e 2, 1, 0 na direita */
@@ -753,7 +799,7 @@ td small {
     grid-template-columns: 1fr;
   }
   .lado-video {
-    min-height: 250px;
+    min-height: 205px;
   }
   .lado-avaliacao {
     padding: 24px;
