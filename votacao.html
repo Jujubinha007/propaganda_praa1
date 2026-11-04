@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Votação - Concurso de Propagandas 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===== CABEÇALHO ===== -->
+  <header class="cabecalho">
+    <div class="container cabecalho-conteudo">
+      <div class="marca">
+        <img src="img/logo-sesi-senai.png" alt="SESI | SENAI" class="logo">
+        <div>
+          <h1>Projeto de Áudio e Vídeo - Propagandas</h1>
+          <p>Produzido pelos alunos do 2°EM SESI | SENAI 2026</p>
+        </div>
+      </div>
+      <div class="usuario">
+        <i class="bi bi-person-circle"></i>
+        <span id="nomeUsuario" class="nomeUsuario"></span>
+        <button id="botaoSair" class="botao-secundario">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ===== BANNER (HERO) ===== -->
+    <section class="hero">
+      <div class="hero-texto">
+        <span class="hero-etiqueta">2ª edição</span>
+        <h2>Concurso de Áudio e Vídeo</h2>
+        <p>Os alunos do 2º EM criaram propagandas incríveis. Assista a cada vídeo, dê sua nota e ajude a escolher a melhor!</p>
+      </div>
+      <i class="bi bi-camera-reels-fill hero-icone" aria-hidden="true"></i>
+    </section>
+
+    <!-- ===== CARDS DE INFORMAÇÃO ===== -->
+    <section class="cards">
+      <div class="card-info">
+        <i class="bi bi-people-fill"></i>
+        <div class="card-numero" id="totalVotos">-</div>
+        <div class="card-rotulo">Total de votos</div>
+      </div>
+      <div class="card-info">
+        <i class="bi bi-play-btn-fill"></i>
+        <div class="card-numero" id="totalVideos">-</div>
+        <div class="card-rotulo">Vídeos concorrendo</div>
+      </div>
+      <div class="card-info">
+        <i class="bi bi-check2-square"></i>
+        <div class="card-numero" id="statusUsuario">-</div>
+        <div class="card-rotulo" id="statusTexto">Seu status</div>
+      </div>
+    </section>
+
+    <!-- ===== TÍTULO DA VOTAÇÃO ===== -->
+    <h1 class="titulo-secao">Avalie os vídeos</h1>
+
+    <!-- ===== VOTAÇÃO ===== -->
+    <section class="votacao">
+      <button id="botaoAnterior" class="seta" aria-label="Vídeo anterior">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <article class="card-video">
+        <!-- Lado esquerdo: vídeo -->
+        <div class="lado-video">
+          <video id="player" preload="metadata" playsinline></video>
+          <div id="sobreposicao" class="sobreposicao">
+            <button id="botaoAssistir" class="botao-assistir">
+              <i class="bi bi-play-circle-fill"></i> Assistir vídeo
+            </button>
+          </div>
+        </div>
+
+        <!-- Lado direito: avaliação -->
+        <div class="lado-avaliacao">
+          <p class="contador" id="contador"></p>
+          <h3 id="tituloVideo"></h3>
+          <p class="produto" id="produtoVideo"></p>
+          <p class="status-video" id="statusVideo"></p>
+
+          <form id="formNota">
+            <fieldset class="opcoes" id="opcoes">
+              <legend>Sua nota</legend>
+              <label class="opcao"><input type="radio" name="nota" value="5"> <span class="nota-numero">5</span> Excelente</label>
+              <label class="opcao"><input type="radio" name="nota" value="4"> <span class="nota-numero">4</span> Muito Bom</label>
+              <label class="opcao"><input type="radio" name="nota" value="3"> <span class="nota-numero">3</span> Regular</label>
+              <label class="opcao"><input type="radio" name="nota" value="2"> <span class="nota-numero">2</span> Ruim</label>
+              <label class="opcao"><input type="radio" name="nota" value="1"> <span class="nota-numero">1</span> Muito Ruim</label>
+              <label class="opcao"><input type="radio" name="nota" value="0"> <span class="nota-numero">0</span> Nulo</label>
+            </fieldset>
+
+            <p id="aviso" class="aviso"></p>
+            <button type="submit" id="botaoEnviar" class="botao-principal">Enviar</button>
+          </form>
+        </div>
+      </article>
+
+      <button id="botaoProximo" class="seta" aria-label="Próximo vídeo">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </section>
+
+    <!-- Bolinhas: uma por vídeo (cheia = já avaliado) -->
+    <div class="pontos" id="pontos"></div>
+  </main>
+
+  <footer class="rodape">
+    <div class="container">
+      <p>Projeto de Áudio e Vídeo - 2°EM SESI | SENAI 2026</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/videos.js"></script>
+  <script src="js/banco.js"></script>
+  <script src="js/votacao.js"></script>
+</body>
+</html>

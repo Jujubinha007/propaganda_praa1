@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Professor - Concurso de Propagandas 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="cabecalho">
+    <div class="container cabecalho-conteudo">
+      <div class="marca">
+        <img src="img/logo-sesi-senai.png" alt="SESI | SENAI" class="logo">
+        <div>
+          <h1>Painel do Professor</h1>
+          <p>Concurso de Propagandas - 2°EM SESI | SENAI 2026</p>
+        </div>
+      </div>
+      <a href="index.html" class="botao-secundario">Voltar para a votação</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ===== LOGIN DO ADMIN ===== -->
+    <section id="areaLogin" class="card-login login-admin">
+      <h1>Área do professor</h1>
+      <p class="subtitulo">Entre com o e-mail e a senha de administrador.</p>
+      <form id="formAdmin">
+        <div class="campo">
+          <label for="emailAdmin">E-mail</label>
+          <input type="email" id="emailAdmin" required autocomplete="email">
+        </div>
+        <div class="campo">
+          <label for="senhaAdmin">Senha</label>
+          <input type="password" id="senhaAdmin" required autocomplete="current-password">
+        </div>
+        <button type="submit" id="botaoEntrarAdmin" class="botao-principal">Entrar</button>
+      </form>
+    </section>
+
+    <!-- ===== RESULTADOS ===== -->
+    <section id="areaPainel" hidden>
+      <div class="painel-titulo">
+        <h2>Resultados</h2>
+        <div class="botoes">
+          <button id="botaoAtualizar" class="botao-secundario"><i class="bi bi-arrow-clockwise"></i> Atualizar</button>
+          <button id="botaoPlanilha" class="botao-secundario"><i class="bi bi-download"></i> Baixar planilha</button>
+          <button id="botaoSairAdmin" class="botao-secundario">Sair</button>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card-info">
+          <i class="bi bi-person-check-fill"></i>
+          <div class="card-numero" id="totalParticipantes">0</div>
+          <div class="card-rotulo">Pessoas que entraram</div>
+        </div>
+        <div class="card-info">
+          <i class="bi bi-people-fill"></i>
+          <div class="card-numero" id="totalAvaliacoes">0</div>
+          <div class="card-rotulo">Total de votos</div>
+        </div>
+      </div>
+
+      <div class="bloco">
+        <h3>Ranking por média</h3>
+        <div class="tabela-rolagem">
+          <table>
+            <thead>
+              <tr><th>#</th><th>Propaganda</th><th>Votos</th><th>Média</th><th></th></tr>
+            </thead>
+            <tbody id="tabelaRanking"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bloco">
+        <h3>Todas as avaliações</h3>
+        <div class="tabela-rolagem">
+          <table>
+            <thead>
+              <tr><th>Nome</th><th>E-mail</th><th>Propaganda</th><th>Nota</th><th>Data</th></tr>
+            </thead>
+            <tbody id="tabelaAvaliacoes"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/videos.js"></script>
+  <script src="js/banco.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
