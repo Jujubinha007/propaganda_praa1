@@ -109,6 +109,7 @@ function mostrarVideo() {
   player.removeAttribute("controls");
   player.src = video.video;
   player.poster = video.capa;
+  player.setAttribute("aria-label", `Vídeo: ${video.titulo}`);
   sobreposicao.classList.remove("escondido");
 
   // Textos
@@ -175,6 +176,7 @@ function criarPontos() {
 function atualizarPontos() {
   document.querySelectorAll(".ponto").forEach((ponto, posicao) => {
     ponto.classList.toggle("ativo", posicao === atual);
+    ponto.setAttribute("aria-current", posicao === atual ? "true" : "false");
     ponto.classList.toggle("avaliado", notas[VIDEOS[posicao].id] !== undefined);
   });
 }
@@ -195,6 +197,9 @@ botaoProximo.addEventListener("click", () => irPara(atual + 1));
 
 // Setas do teclado também trocam de vídeo
 document.addEventListener("keydown", (evento) => {
+  // Nas notas e no vídeo as setas já têm outra função (escolher nota / avançar o vídeo)
+  if (evento.target.matches("input, video")) return;
+
   if (evento.key === "ArrowLeft") irPara(atual - 1);
   if (evento.key === "ArrowRight") irPara(atual + 1);
 });

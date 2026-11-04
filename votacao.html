@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/tema.js"></script>
 </head>
 <body>
 
@@ -23,8 +24,9 @@
         </div>
       </div>
       <div class="usuario">
-        <i class="bi bi-person-circle"></i>
+        <i class="bi bi-person-circle" aria-hidden="true"></i>
         <span id="nomeUsuario" class="nomeUsuario"></span>
+        <button type="button" class="botao-tema" aria-label="Ativar modo escuro"></button>
         <button id="botaoSair" class="botao-secundario">Sair</button>
       </div>
     </div>
@@ -45,17 +47,17 @@
     <!-- ===== CARDS DE INFORMAÇÃO ===== -->
     <section class="cards">
       <div class="card-info">
-        <i class="bi bi-people-fill"></i>
+        <i class="bi bi-people-fill" aria-hidden="true"></i>
         <div class="card-numero" id="totalVotos">-</div>
         <div class="card-rotulo">Total de votos</div>
       </div>
       <div class="card-info">
-        <i class="bi bi-play-btn-fill"></i>
+        <i class="bi bi-play-btn-fill" aria-hidden="true"></i>
         <div class="card-numero" id="totalVideos">-</div>
         <div class="card-rotulo">Vídeos concorrendo</div>
       </div>
-      <div class="card-info">
-        <i class="bi bi-check2-square"></i>
+      <div class="card-info" aria-live="polite">
+        <i class="bi bi-check2-square" aria-hidden="true"></i>
         <div class="card-numero" id="statusUsuario">-</div>
         <div class="card-rotulo" id="statusTexto">Seu status</div>
       </div>
@@ -67,7 +69,7 @@
     <!-- ===== VOTAÇÃO ===== -->
     <section class="votacao">
       <button id="botaoAnterior" class="seta" aria-label="Vídeo anterior">
-        <i class="bi bi-chevron-left"></i>
+        <i class="bi bi-chevron-left" aria-hidden="true"></i>
       </button>
 
       <article class="card-video">
@@ -76,7 +78,7 @@
           <video id="player" preload="metadata" playsinline></video>
           <div id="sobreposicao" class="sobreposicao">
             <button id="botaoAssistir" class="botao-assistir">
-              <i class="bi bi-play-circle-fill"></i> Assistir vídeo
+              <i class="bi bi-play-circle-fill" aria-hidden="true"></i> Assistir vídeo
             </button>
           </div>
         </div>
@@ -99,14 +101,15 @@
               <label class="opcao"><input type="radio" name="nota" value="0"> <span class="nota-numero">0</span> Nulo</label>
             </fieldset>
 
-            <p id="aviso" class="aviso"></p>
+            <!-- role="status": o leitor de tela lê as mensagens que aparecem aqui -->
+            <p id="aviso" class="aviso" role="status"></p>
             <button type="submit" id="botaoEnviar" class="botao-principal">Enviar</button>
           </form>
         </div>
       </article>
 
       <button id="botaoProximo" class="seta" aria-label="Próximo vídeo">
-        <i class="bi bi-chevron-right"></i>
+        <i class="bi bi-chevron-right" aria-hidden="true"></i>
       </button>
     </section>
 
@@ -119,6 +122,16 @@
       <p>Projeto de Áudio e Vídeo - 2°EM SESI | SENAI 2026</p>
     </div>
   </footer>
+
+  <!-- VLibras: tradução para Libras (governo federal) -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>new window.VLibras.Widget("https://vlibras.gov.br/app");</script>
 
   <script src="js/config.js"></script>
   <script src="js/videos.js"></script>

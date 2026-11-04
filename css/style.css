@@ -3,17 +3,54 @@
    Para mudar uma cor do site inteiro, mude aqui.
    ============================================================= */
 :root {
-  --vermelho: #d6001c;
-  --vermelho-escuro: #9e0015;
-  --vermelho-claro: #fdeced;
-  --fundo: #f7f5f5;
-  --branco: #ffffff;
+  color-scheme: light;
+  --vermelho: #d6001c;          /* fundo de botões e destaques */
+  --vermelho-escuro: #9e0015;   /* botão com o mouse em cima */
+  --vermelho-claro: #fdeced;    /* fundos suaves (nota marcada, tabela) */
+  --vermelho-texto: #d6001c;    /* textos e ícones vermelhos */
+  --fundo: #f7f5f5;             /* fundo da página */
+  --cartao: #ffffff;            /* fundo dos cards, cabeçalho e rodapé */
+  --branco: #ffffff;            /* texto em cima do vermelho */
   --texto: #2b2b2b;
   --texto-suave: #6b6b6b;
   --borda: #e6e0e0;
   --verde: #1f9d55;
+  --verde-claro: #e6f6ed;
+  --cinza-claro: #f3f0f0;
+  --desativado-fundo: #d9d2d2;
+  --desativado-texto: #8a8282;
+  --seta-desativada: #a9a8a8;
+  --barra-fundo: #f0eaea;
+  --fundo-login: linear-gradient(135deg, #9e0015, #d6001c);
   --sombra: 0 6px 20px rgba(0, 0, 0, 0.06);
   --raio: 16px;
+}
+
+/* =============================================================
+   MODO ESCURO
+   O arquivo js/tema.js coloca data-tema="escuro" na página.
+   Aqui só trocamos os valores das cores lá de cima.
+   ============================================================= */
+:root[data-tema="escuro"] {
+  color-scheme: dark;
+  --vermelho: #e8283e;
+  --vermelho-escuro: #b8001a;
+  --vermelho-claro: #3a1418;
+  --vermelho-texto: #ff6b78;
+  --fundo: #121214;
+  --cartao: #29292b;
+  --texto: #ececec;
+  --texto-suave: #a8a8ad;
+  --borda: #6f6f70;
+  --verde: #3ccf7a;
+  --verde-claro: #12301f;
+  --cinza-claro: #2a2a2f;
+  --desativado-fundo: #3a3a40;
+  --desativado-texto: #8d8d93;
+  --seta-desativada: #4a4a50;
+  --barra-fundo: #2e2e33;
+  --fundo-login: linear-gradient(135deg, #3a0008, #121214);
+  --sombra: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 * {
@@ -36,6 +73,22 @@ button {
 
 [hidden] {
   display: none !important;
+}
+
+/* Texto escondido na tela, mas lido pelo leitor de tela */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* Contorno vermelho em tudo que recebe foco pelo teclado (tecla Tab) */
+:focus-visible {
+  outline: 3px solid var(--vermelho-texto);
+  outline-offset: 2px;
 }
 
 .container {
@@ -62,8 +115,8 @@ button {
   background: var(--vermelho-escuro);
 }
 .botao-principal:disabled {
-  background: #d9d2d2;
-  color: #8a8282;
+  background: var(--desativado-fundo);
+  color: var(--desativado-texto);
   cursor: not-allowed;
 }
 
@@ -71,7 +124,7 @@ button {
   padding: 8px 16px;
   border: 1px solid var(--borda);
   border-radius: 8px;
-  background: var(--branco);
+  background: var(--cartao);
   color: var(--texto);
   font-weight: 600;
   font-size: 0.95rem;
@@ -80,8 +133,28 @@ button {
   transition: all 0.2s;
 }
 .botao-secundario:hover {
-  border-color: var(--vermelho);
-  color: var(--vermelho);
+  border-color: var(--vermelho-texto);
+  color: var(--vermelho-texto);
+}
+
+/* Botão de trocar o tema (lua / sol) */
+.botao-tema {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--borda);
+  border-radius: 50%;
+  background: var(--cartao);
+  color: var(--texto);
+  font-size: 1.1rem;
+  transition: all 0.2s;
+}
+.botao-tema:hover {
+  border-color: var(--vermelho-texto);
+  color: var(--vermelho-texto);
 }
 
 /* =============================================================
@@ -93,16 +166,22 @@ button {
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background: linear-gradient(135deg, var(--vermelho-escuro), var(--vermelho));
+  background: var(--fundo-login);
 }
 
 .card-login {
+  position: relative; /* para o botão de tema ficar no canto */
   width: 100%;
   max-width: 620px;
   padding: 28px 32px;
   border-radius: var(--raio);
-  background: var(--branco);
+  background: var(--cartao);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+.card-login .botao-tema {
+  position: absolute;
+  top: 16px;
+  right: 16px;
 }
 .card-login .logo {
   height: 36px;
@@ -112,7 +191,7 @@ button {
   font-size: 1.25rem;
   font-weight: 800;
   line-height: 1.3;
-  color: var(--vermelho);
+  color: var(--vermelho-texto);
 }
 .card-login .subtitulo {
   margin: 2px 0 18px;
@@ -138,12 +217,14 @@ button {
   padding: 10px 12px;
   border: 1px solid var(--borda);
   border-radius: 10px;
+  background: var(--cartao);
+  color: var(--texto);
   font-family: inherit;
   font-size: 1rem;
 }
 .campo input:focus {
   outline: none;
-  border-color: var(--vermelho);
+  border-color: var(--vermelho-texto);
   box-shadow: 0 0 0 3px var(--vermelho-claro);
 }
 .dica-campo {
@@ -167,7 +248,7 @@ button {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--branco);
+  background: var(--cartao);
   border-bottom: 4px solid var(--vermelho);
 }
 .cabecalho-conteudo {
@@ -190,7 +271,7 @@ button {
   font-size: 1.25rem;
   font-weight: 800;
   line-height: 1.2;
-  color: var(--vermelho);
+  color: var(--vermelho-texto);
 }
 .marca p {
   color: var(--texto-suave);
@@ -203,9 +284,9 @@ button {
   gap: 10px;
   font-weight: 600;
 }
-.usuario .bi {
+.usuario > .bi {
   font-size: 1.5rem;
-  color: var(--vermelho);
+  color: var(--vermelho-texto);
 }
 
 /* =============================================================
@@ -217,8 +298,8 @@ button {
   margin-top: 32px;
   padding: 56px 48px;
   border-radius: var(--raio);
-  color: var(--branco);
-  background: linear-gradient(120deg, var(--vermelho-escuro) 0%, var(--vermelho) 60%, #ff4d5e 100%);
+  color: #ffffff;
+  background: linear-gradient(120deg, #9e0015 0%, #d6001c 60%, #ff4d5e 100%);
 }
 /* Círculos decorativos */
 .hero::before,
@@ -288,13 +369,13 @@ button {
   padding: 24px;
   border: 1px solid var(--borda);
   border-radius: var(--raio);
-  background: var(--branco);
+  background: var(--cartao);
   box-shadow: var(--sombra);
   text-align: center;
 }
 .card-info .bi {
   font-size: 2rem;
-  color: var(--vermelho);
+  color: var(--vermelho-texto);
 }
 .card-numero {
   margin-top: 6px;
@@ -315,7 +396,7 @@ button {
   text-align: center;
   font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 800;
-  color: var(--vermelho);
+  color: var(--vermelho-texto);
 }
 
 /* =============================================================
@@ -325,7 +406,7 @@ button {
   position: relative; /* as setas se posicionam em relação a este bloco */
 }
 
-/* Setas: ficam por cima das bordas do card, metade para fora */
+/* Setas: ficam do lado de fora do card */
 .seta {
   position: absolute;
   top: 50%;
@@ -351,7 +432,7 @@ button {
   background: var(--vermelho-escuro);
 }
 .seta:disabled {
-  background: #a9a8a8;
+  background: var(--seta-desativada);
   cursor: not-allowed;
 }
 
@@ -361,7 +442,7 @@ button {
   overflow: hidden;
   border: 1px solid var(--borda);
   border-radius: var(--raio);
-  background: var(--branco);
+  background: var(--cartao);
   box-shadow: var(--sombra);
 }
 
@@ -398,8 +479,8 @@ button {
   padding: 14px 28px;
   border: none;
   border-radius: 999px;
-  background: var(--branco);
-  color: var(--vermelho);
+  background: #ffffff;
+  color: #d6001c;
   font-size: 1.1rem;
   font-weight: 700;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
@@ -419,7 +500,7 @@ button {
   padding: 32px;
 }
 .contador {
-  color: var(--vermelho);
+  color: var(--vermelho-texto);
   font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -442,11 +523,11 @@ button {
   font-weight: 600;
 }
 .status-video.pendente {
-  background: #f3f0f0;
+  background: var(--cinza-claro);
   color: var(--texto-suave);
 }
 .status-video.avaliado {
-  background: #e6f6ed;
+  background: var(--verde-claro);
   color: var(--verde);
 }
 
@@ -475,13 +556,13 @@ button {
   transition: border-color 0.2s, background 0.2s;
 }
 .opcao:hover {
-  border-color: var(--vermelho);
+  border-color: var(--vermelho-texto);
 }
 .opcao input {
   accent-color: var(--vermelho);
 }
 .opcao:has(input:checked) {
-  border-color: var(--vermelho);
+  border-color: var(--vermelho-texto);
   background: var(--vermelho-claro);
 }
 .opcoes:disabled .opcao {
@@ -490,7 +571,7 @@ button {
 }
 .nota-numero {
   font-weight: 800;
-  color: var(--vermelho);
+  color: var(--vermelho-texto);
 }
 
 .aviso {
@@ -501,7 +582,7 @@ button {
   font-weight: 600;
 }
 .aviso.erro {
-  color: var(--vermelho);
+  color: var(--vermelho-texto);
 }
 .aviso.sucesso {
   color: var(--verde);
@@ -515,16 +596,23 @@ button {
   margin-top: 20px;
 }
 .ponto {
+  position: relative;
   width: 14px;
   height: 14px;
   padding: 0;
-  border: 2px solid var(--vermelho);
+  border: 2px solid var(--vermelho-texto);
   border-radius: 50%;
-  background: var(--branco);
+  background: var(--cartao);
   transition: transform 0.2s;
 }
+/* Área de toque maior que a bolinha (melhor no celular) */
+.ponto::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+}
 .ponto.avaliado {
-  background: var(--vermelho);
+  background: var(--vermelho-texto);
 }
 .ponto.ativo {
   transform: scale(1.4);
@@ -552,7 +640,7 @@ button {
   padding: 24px;
   border: 1px solid var(--borda);
   border-radius: var(--raio);
-  background: var(--branco);
+  background: var(--cartao);
   box-shadow: var(--sombra);
 }
 .bloco h3 {
@@ -575,7 +663,7 @@ td {
 }
 th {
   background: var(--vermelho-claro);
-  color: var(--vermelho-escuro);
+  color: var(--vermelho-texto);
   font-weight: 700;
   white-space: nowrap;
 }
@@ -587,7 +675,7 @@ td small {
   height: 8px;
   overflow: hidden;
   border-radius: 99px;
-  background: #f0eaea;
+  background: var(--barra-fundo);
 }
 .barra div {
   height: 100%;
@@ -605,7 +693,7 @@ td small {
   margin-top: 56px;
   padding: 24px 0;
   border-top: 1px solid var(--borda);
-  background: var(--branco);
+  background: var(--cartao);
   color: var(--texto-suave);
   font-size: 0.9rem;
   text-align: center;
@@ -615,8 +703,9 @@ td small {
    CELULAR E TABLET
    ============================================================= */
 
-/* Tela um pouco menor que o site: as setas saem menos para fora */
-@media (max-width: 1250px) {
+/* Notebook (até 1360px): as setas ficam por cima da borda do card,
+   senão elas sairiam da tela */
+@media (max-width: 1360px) {
   #botaoAnterior {
     left: -16px;
   }
@@ -626,29 +715,30 @@ td small {
 }
 
 @media (max-width: 860px) {
-  .cabecalho-conteudo {
-    align-items: flex-start;
+  .marca {
+    gap: 12px;
   }
-  .marca .logo{
-    width: 100px;
-    height: max-content;
+  .marca .logo {
+    height: 32px;
   }
-  .marca h1{
-    font-size: 13px;
-  }
-  .marca p{
-    font-size: 8px;
-  }
-  .usuario .bi{
+  .marca h1 {
     font-size: 1rem;
   }
-  .usuario .nomeUsuario{
-    font-weight: 200;
-    font-size: 10px;
+  .marca p {
+    font-size: 0.8rem;
   }
-  .usuario .botao-secundario{
-    font-size: 10px;
-    padding: 4px 8px;
+  .usuario {
+    gap: 8px;
+  }
+  .usuario > .bi {
+    font-size: 1.25rem;
+  }
+  .nomeUsuario {
+    font-size: 0.85rem;
+  }
+  .usuario .botao-secundario {
+    padding: 6px 12px;
+    font-size: 0.85rem;
   }
   .hero {
     padding: 36px 24px;
@@ -656,7 +746,7 @@ td small {
   .hero-icone {
     display: none;
   }
-  .cards{
+  .cards {
     grid-template-columns: 1fr;
   }
   .card-video {
@@ -692,43 +782,55 @@ td small {
     grid-area: proximo;
     justify-self: end;
   }
-  .pontos{
+  .pontos {
     margin-top: -35px;
   }
 }
 
-@media (max-width: 480px) {
+/* Celular: logo e título em cima, usuário e botões embaixo */
+@media (max-width: 600px) {
+  /* No celular o cabeçalho não fica preso no topo (ocuparia muito da tela) */
+  .cabecalho {
+    position: static;
+  }
   .marca {
-    gap: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .cabecalho-conteudo {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
   .marca .logo {
-    width: 100px;
-    height: max-content;
+    height: 26px;
   }
   .marca h1 {
-    font-size: 0.5rem;
+    font-size: 0.95rem;
   }
-  .marca p{
-    font-size: 8px;
+  .marca p {
+    font-size: 0.75rem;
   }
-  .botao-secundario{
-    font-size: 0.5rem;
+  .usuario {
+    justify-content: flex-end;
   }
-  .usuario{
-    gap: 5px;
+  .nomeUsuario {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-  .usuario .bi{
-    position: absolute;
-    font-size: 1.5rem;
-    right: 80px;
+  .botao-tema {
+    width: 36px;
+    height: 36px;
   }
-  .usuario .nomeUsuario{
-    visibility: hidden;
-  }
-  .usuario .botao-secundario{
-    font-size: 15px;
-    padding: 5px 9pxpx;
-  }
+}
+
+@media (max-width: 480px) {
   .opcoes {
     grid-template-columns: 1fr;
     grid-template-rows: none;
@@ -736,5 +838,9 @@ td small {
   }
   .card-login {
     padding: 24px 20px;
+  }
+  .card-login .botao-tema {
+    top: 12px;
+    right: 12px;
   }
 }

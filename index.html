@@ -9,10 +9,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/tema.js"></script>
 </head>
 <body class="pagina-login">
 
   <main class="card-login">
+    <button type="button" class="botao-tema" aria-label="Ativar modo escuro"></button>
     <img src="img/logo-sesi-senai.png" alt="SESI | SENAI" class="logo">
     <h1>Projeto de Áudio e Vídeo - Propagandas</h1>
     <p class="subtitulo">Entre para assistir aos vídeos e votar.</p>
@@ -25,21 +27,31 @@
 
       <div class="campo">
         <label for="email">E-mail institucional</label>
-        <input type="email" id="email" required autocomplete="email" placeholder="seu.nome@sp.senai.br">
-        <p class="dica-campo">@edu.senai.br, @sp.senai.br ou @portalsesisp.org.br</p>
+        <input type="email" id="email" required autocomplete="email" placeholder="seu.nome@sp.senai.br" aria-describedby="dicaEmail">
+        <p class="dica-campo" id="dicaEmail">@edu.senai.br, @sp.senai.br ou @portalsesisp.org.br</p>
       </div>
 
       <div class="campo">
         <label for="senha">Senha</label>
-        <input type="password" id="senha" required autocomplete="current-password">
-        <p class="dica-campo">Senha informada pelo professor.</p>
+        <input type="password" id="senha" required autocomplete="current-password" aria-describedby="dicaSenha">
+        <p class="dica-campo" id="dicaSenha">Senha informada pelo professor.</p>
       </div>
 
       <button type="submit" id="botaoEntrar" class="botao-principal">Entrar</button>
     </form>
 
-    <a href="admin.html" class="link-admin"><i class="bi bi-shield-lock"></i> Área do professor</a>
+    <a href="admin.html" class="link-admin"><i class="bi bi-shield-lock" aria-hidden="true"></i> Área do professor</a>
   </main>
+
+  <!-- VLibras: tradução para Libras (governo federal) -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>new window.VLibras.Widget("https://vlibras.gov.br/app");</script>
 
   <script src="js/config.js"></script>
   <script src="js/banco.js"></script>
