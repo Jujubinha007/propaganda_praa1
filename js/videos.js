@@ -15,7 +15,7 @@ const VIDEOS = [
     id: 1,
     titulo: "Um sabor de Pringles para cada momento especial",
     produto: "Pringles - batatas sabor tomate e cebola",
-    video: "videos/pringles.mov",
+    video: "videos/pringles.mp4",
     capa: "img/capas/pringles.png",
   },
   {
@@ -29,7 +29,7 @@ const VIDEOS = [
     id: 3,
     titulo: "Não dá pra resistir",
     produto: "Nestlé - Chocolate ao leite",
-    video: "videos/nestle.mov",
+    video: "videos/nestle.mp4",
     capa: "img/capas/nestle.png",
   },
   {
